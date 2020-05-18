@@ -1,4 +1,9 @@
 # Informe punto 2
+## Algunas notas (borrar cuando entregamos)
+O(procesoA) = O(n2)
+O(procesoB) = O(nlogn) + O(n) (mergesort + recorrer el arreglo una vez)
+O(procesoC) = O(nlogn) ?
+
 ## 1. Pseudocodigo Proceso A
 ```python
 para cada pieza i del lote:
@@ -12,21 +17,22 @@ descarto el lote
 ```
 ## 2. Proceso B
 
-El proceso B introduce una mejora en cuanto al proceso A en el sentido que en el proceso B, cuando uno toma una pieza, solo tiene que recorrer las piezas siguientes hasta encontrar una con diferente volumen. Al estar ordenado podemos dejar de buscar ya que las siguientes piezas tendrán un volumen diferente. Es decir, sólo contamos piezas con el mismo volumen. Sin embargo, el proceso B nos introduce un costo extra que es el de ordenar el lote por volumen.
+El proceso B introduce una mejora en cuanto al proceso A en el sentido que en el proceso B, cuando uno toma una pieza, solo tiene que recorrer las piezas siguientes hasta encontrar una con diferente volumen. Al estar ordenado podemos dejar de buscar ya que las siguientes piezas tendrán un volumen diferente.Es decir, el proceso B nos quita el hecho de buscar todos los elementos con el mismo volumen que la pieza i, sólo recorremos el lote una vez.
 
-Finalmente, si la complejidad de ordenar es mayor a la complejidad que quitamos al tener el lote ordenado no podemos considerar como una mejora al proceso B. De hecho, en el peor de los casos si todas las piezas del lote tienen el mismo volumen, la complejidad de B será mayor que la de A.
 
 ```python
+# Asumimos que el lote tiene al menos un elemento
 ordenar el lote por vol
-por cada pieza i del lote:
-  cantidad = 0
-  vol = vol_i
-  pieza = i
-  hasta que vol_i != vol:
-    cantidad ++
-    i++
+i = 0
+vol = vol[i]
+cantidad = 1
+hasta que termine:
+  vol = vol[i]
   si cantidad > n/2:
     rotulo = vol
+  sino:
+    i ++
+    
 descartar lote
  
     
