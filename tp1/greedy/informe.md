@@ -4,9 +4,9 @@ horario de trabajo de todos los empleados.
 Estrategia: Ordenar los empelados por tiempo de inicio de actividades, de tal forma que se encuentre aquellos empleados
 que comiencen a realizar su trabajo primero, y encontrar los intervalos de tiempo más chicos que abarquen la mayor cantidad de empleados posible.
 
-
+```java
 INTERVALOS = []
-EMPLEADOS = ordenar_por_si(EMPLEADOS,'creciente')						| O(nlog(n))
+EMPLEADOS = ordenar_por_SI(EMPLEADOS,'creciente')						| O(nlog(n))
 INTERVALO = obtener_intervalo(EMPLEADOS[0])								| O(1)
 
 Para k desde 1 hasta n													| O(n)
@@ -18,7 +18,7 @@ Para k desde 1 hasta n													| O(n)
 		agregar INTERVALO a INTERVALOS									| O(1)
 		INTERVALO = obtener_intervalo(EMPLEADOS[k])						| O(1)
 
-Para cada INTERVALO EN INTERVALOS										| O(m)
+Para cada INTERVALO en INTERVALOS										| O(m)
 	tiempo = obtener_cualquier_punto(INTERVALO)							| O(1)
 	UBICACION_EMPLEADOS = FUNCION_DTI(tiempo)							| O(1)
 
