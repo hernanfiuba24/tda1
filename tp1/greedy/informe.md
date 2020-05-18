@@ -7,23 +7,23 @@ que comiencen a realizar su trabajo primero, y encontrar los intervalos de tiemp
 ```java
 INTERVALOS = []
 EMPLEADOS = ordenar_por_SI(EMPLEADOS,'creciente')						| O(nlog(n))
-INTERVALO = obtener_intervalo(EMPLEADOS[0])								| O(1)
+INTERVALO = obtener_intervalo(EMPLEADOS[0])							| O(1)
 
-Para k desde 1 hasta n													| O(n)
-	SI (INTERVALO se superpone con EMPLEADOS[k])						| O(1)
-		INTERVALO = obtener_interseccion(INTERVALO, EMPLEADOS[k])		| O(1)
-		SI (k == n)														| O(1)
-			agregar INTERVALO a INTERVALOS								| O(1)
-	SINO 																| O(1)
-		agregar INTERVALO a INTERVALOS									| O(1)
-		INTERVALO = obtener_intervalo(EMPLEADOS[k])						| O(1)
+Para k desde 1 hasta 												| O(n)
+	SI (INTERVALO se superpone con EMPLEADOS[k])					| O(1)
+		INTERVALO = obtener_interseccion(INTERVALO, EMPLEADOS[k])	| O(1)
+		SI (k == n)													| O(1)
+			agregar INTERVALO a INTERVALOS 							| O(1)
+	SINO 															| O(1)
+		agregar INTERVALO a INTERVALOS 								| O(1)
+		INTERVALO = obtener_intervalo(EMPLEADOS[k])					| O(1)
 
-Para cada INTERVALO en INTERVALOS										| O(m)
-	tiempo = obtener_cualquier_punto(INTERVALO)							| O(1)
-	UBICACION_EMPLEADOS = FUNCION_DTI(tiempo)							| O(1)
+Para cada INTERVALO en INTERVALOS									| O(m)
+	tiempo = obtener_cualquier_punto(INTERVALO)						| O(1)
+	UBICACION_EMPLEADOS = FUNCION_DTI(tiempo)						| O(1)
 
-Para cada EMPLEADO en UBICACION_EMPLEADOS								| O(w)
-	imprimir_resultado(EMPLEADO)										| O(1)
+Para cada EMPLEADO en UBICACION_EMPLEADOS							| O(w)
+	imprimir_resultado(EMPLEADO)									| O(1)
 
 
 esto da como resultado :
