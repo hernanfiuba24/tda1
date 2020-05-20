@@ -22,19 +22,51 @@ El proceso B introduce una mejora en cuanto al proceso A en el sentido que en el
 
 ```python
 # Asumimos que el lote tiene al menos un elemento
+# cantidad de elementos en el lote = n
 ordenar el lote por vol
 i = 0
 vol = vol[i]
 cantidad = 1
-hasta que termine:
+rotulo = 0
+hasta que rotulo != 0 o i == n:
   vol = vol[i]
   si cantidad > n/2:
     rotulo = vol
   sino:
     i ++
-    
-descartar lote
- 
-    
+si rotulo != 0:
+  devolver rotulo
+sino:
+  descartar lote
+```
+
+## 3. Pseudocodigo Proceso C
+
+```python
+# cantidad de elementos en el lote = n
+rotulo = 0
+frecuencia = {}
+candidato = mayoria(lote)
+si frecuencia[candidato] > n/2:
+  rotulo = candidato
+sino:
+  descarto el lote
+
+funcion mayoria(lote):
+  si len(lote) == 1:
+    candidato = lote[0] 
+    frecuencia[candidato] ++
+    return candidato
   
+  mitad = len(lote)/2
+  
+  candidatoD = mayoria(lote[:mitad]) 
+  candidatoI = mayoria(lote[mitad:])
+  si candidatoD == candidatoI:
+    return candidatoD
+  sino frecuencia[candidatoD] > frecuencia[candidatoI]:
+    return candidatoD
+  sino:
+    return cadidatoI
+
 ```
