@@ -1,18 +1,10 @@
 # Informe punto 1
 
-## 1. Objetivo
 
-Encontrar la menor cantidad de intervalos de tiempo de tal forma que todos los intervalos se superpongan con el 
-horario de trabajo de todos los empleados.
-
-## 2. Estrategia
-
-Ordenar los empelados por tiempo de inicio de actividades, de tal forma que se encuentre aquellos empleados
-que comiencen a realizar su trabajo primero, y encontrar los intervalos de tiempo más chicos que abarquen la mayor cantidad de empleados posible.
-
-## 3. Pseudocódigo de la solución
+## 1. Pseudocódigo de la solución
 
 ```java
+
 INTERVALOS = []
 EMPLEADOS = ordenar_por_SI(EMPLEADOS,'creciente')
 INTERVALO = obtener_intervalo(EMPLEADOS[0])
@@ -28,14 +20,55 @@ Para k desde 1 hasta n
 
 Para cada INTERVALO en INTERVALOS
 	tiempo = obtener_cualquier_punto(INTERVALO)
-	UBICACION_EMPLEADOS = FUNCION_DTI(tiempo)
+	EMPLEADOS = FUNCION_DTI(tiempo)
+	agregar EMPLEADOS a UBICACION_EMPLEADOS
 
 Para cada EMPLEADO en UBICACION_EMPLEADOS
 	imprimir_resultado(EMPLEADO)
 ```
 
-## 4. Evaluación de la complejidad
+## 2. Tipo de algoritmo y Justificación
 
+### 2.1 Objetivo
+
+Realizar la menor cantidad de llamadas al sistema DTI de forma que se pueda obtener
+la ubicación de todos los empleados en su horario laboral.
+
+### 2.2 Estrategia
+
+Todos los empleados tienen un horario laboral definido por Ti y Tf
+(Ti tiempo de inicio y Tf tiempo de fin).
+Para realizar la mínima cantidad de consultas al sistema DTI, se debe encontrar
+el o los valores de tiempo en el que se debe realizar la o las consultas al sistema.
+Se deben intersecar todos los horarios laborales de los empleados para hallar los tiempos
+de consulta y seleccionar aquellos valores de tiempo que haga mínima la cantidad de consultas.
+Lo que confiere un costo de NxN.
+
+Para minimizar este costo Se propone ordenar los empleados por tiempo de inicio
+de actividades (Ti), de tal forma que al recorrer se hagan según más temprano ingresen
+al trabajo y se va a ir intersectando con el horario del siguiente empleado hasta que no
+se puede intersecar más. lo que crea una consulta, se realiza
+nuevamente el proceso de intersección hasta que no haya más empleados.
+
+
+### 2.3 Justificación
+
+Se puede observar que en cada iteración el intervalo de tiempo de consulta se
+hace más chico o se mantiene y va abarcando a más empleados hasta donde sea
+posible.
+Cuando el intervalo deja de intersecarse con más empleados, se elige un valor de
+tal intervalo para hacer la consulta. y al dejar de intesecarse es porque se
+necesita otro intervalo de consulta obligatoriamente del cual se tomará otro valor.
+Esto quiere decir que es imposible hacer la consulta en un único tiempo "t" para poder
+localizar a todos los empleados en su horario laboral.
+
+Entonces, en cada iteración se selecciona un óptimo local de todo el intervalo inicial
+(el intervalo se hace más chico) esta es una elección Greedy dado que esta elección
+persiste hasta que dicho intervalo deje de intersecarse.
+
+## 3. Evaluación de la complejidad
+
+### 3.1 Evaluación de la complejidad Temporal
 ```java
 INTERVALOS = []
 EMPLEADOS = ordenar_por_SI(EMPLEADOS,'creciente')				| O(nlog(n))
@@ -52,54 +85,48 @@ Para k desde 1 hasta n								| O(n)
 
 Para cada INTERVALO en INTERVALOS						| O(m)
 	tiempo = obtener_cualquier_punto(INTERVALO)				| O(1)
-	UBICACION_EMPLEADOS = FUNCION_DTI(tiempo)				| O(1)
+	EMPLEADOS = FUNCION_DTI(tiempo)							| O(1)
+	agregar EMPLEADOS a UBICACION_EMPLEADOS					| O(1)
 
-Para cada EMPLEADO en UBICACION_EMPLEADOS					| O(w)
+Para cada EMPLEADO en UBICACION_EMPLEADOS					| O(n)
 	imprimir_resultado(EMPLEADO)						| O(1)
 
+```
+Interpretación:
+Como se puede observar se recibe un vector de n empleados, que posteriormente
+es ordenado, esto tiene un costo de O(nlog(n))
+
+luego iterar todos los empleados para obtener los intervalos de consulta
+tiene un costo de O(n).
+
+Del proceso anterior se obtuvo un vector con m intervalos de consulta con
+1 <= m <= n, esto quiere decir que se tiene al menos un intervalo y a lo sumo n
+intervalos.
+Luego recorrer todos los intervalos para hacer la consulta tiene un costo de O(m)
+con O(1) <= O(m) <= O(n)
+
+Finalmente se itera todas las ubicaciones obtenidas para cada empleado esto tiene
+un costo de O(n).
 
 esto da como resultado :
-O(nlog(n)) + O(n) + O(m) + O(w) = O(nlog(n))
-```
+O(nlog(n)) + O(n) + O(m) + O(n) = O(nlog(n))
 
-## 5. Comprobando que es una solución greedy
-
-### 5.1 Descripción del algoritmo
-
-El algoritmo propuesto en cada iteración encoge más el intervalo a medida que se recorren más empledos.
-
-El intervalo inicial es todo el intervalo de trabajo del empleado que tiene menor inicio,
-dicho intervalo se interseca con el intervalo de trabajo del siguiente empleado, tomando la intersección
-entre ambos y este es el nuevo intervalo de consulta de DTI.
-
-Cuando el intervalo no se interseque con mas empleados se tiene un intervalo de tiempo en el que se hará 
-una consulta a DTI.
-
-Si hay más empleados se comienza un nuevo intervalo.
-
-### 5.2 Evaluando que el resultado es óptimo
-
-Como se puede observar en cada iteración el intervalo de tiempo de consulta se hace más chico 
-y abarca a más empleados hasta donde sea posible.
-
-Cuando el intervalo deja de intersecarse con más empleado es porque se necesita otro intervalo de consulta.
-Esto quiere decir que es imposible hacer la consulta en un único tiempo "t" para poder localizar a todos los
-empleados en su horario laboral.
-
-Entonces en cada iteración donde haya una intersección disminuyo en una unidad la cantidad de consultas al
-sistema DTI. por lo tanto es una elección greedy.
+### 3.2 Evaluación de la complejidad Espacial
 
 
-Supangamos que tenemos una solución óptima Op.
-Si la solución propuesta no es óptima entonces INTERVALOS debe tener una cantidad de elementos mayor Op.
-entonces #(INTERVALOS) > #(Op)
+##4. Justificación de que es una solución óptima
 
-Lo quiere decir que INTERVALOS tiene al menos 1 intervalo más de tiempo que la solución óptima,
+Supongamos que tenemos una solución óptima (Op). Si la solución propuesta (llamada MIN_DTI)
+no es óptima, entonces nuestra solución realiza al menos una consulta mas que Op.
+Entonces #consultas(MIN_DTI) > #consultas(Op)
 
-.... pernsar que poner aca---
-Pero el algoritmo recorre los empleados ordenados por menor tiempo de inicio y los va intersecando.
-y se crea un nuevo intervalo cuando deja de haber intersecciones.
-entonces el algoritmo nos retorna la cantidad de empleados que no tienen intersección 
-
-evaluando el caso 
-si i es un intervalo que pertenece a O
+Esto quiere decir que MIN_DTI según el algoritmo tiene al menos un intervalo
+de consulta de más.
+Pero eso no se puede dar porque al recorrer los empleados (ordenados por inicio de
+actividades) se van intersectando con un empleado y si deja de intersecarse es porque es
+necesario una nueva consulta al sistema, porque el horario laboral de este último
+empleado NO coincide con todos los anteriores.
+El proceso se repite y se genera al final k intervalos con k <= n, y cada uno de esos
+intervalos son necesarios.
+Por lo tanto podemos decir que el número de intervalos es mínimo y la cantidad de consultas
+al sistema DTI también.
