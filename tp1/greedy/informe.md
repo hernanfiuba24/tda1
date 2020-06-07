@@ -85,7 +85,7 @@ Para k desde 1 hasta n								| O(n)
 
 Para cada INTERVALO en INTERVALOS						| O(m)
 	tiempo = obtener_cualquier_punto(INTERVALO)				| O(1)
-	EMPLEADOS = FUNCION_DTI(tiempo)							| O(1)
+	EMPLEADOS = FUNCION_DTI(tiempo)						| O(1)
 	agregar EMPLEADOS a UBICACION_EMPLEADOS					| O(1)
 
 Para cada EMPLEADO en UBICACION_EMPLEADOS					| O(n)
@@ -113,8 +113,10 @@ O(nlog(n)) + O(n) + O(m) + O(n) = O(nlog(n))
 
 ### 3.2 Evaluación de la complejidad Espacial
 
+La complejidad espacial es O(n) lineal, porque se carga en memoria a todos los
+empleados, recordando que se tienen n empleados iniciales.
 
-##4. Justificación de que es una solución óptima
+## 4. Justificación de que es una solución óptima
 
 Supongamos que tenemos una solución óptima (Op). Si la solución propuesta (llamada MIN_DTI)
 no es óptima, entonces nuestra solución realiza al menos una consulta mas que Op.
