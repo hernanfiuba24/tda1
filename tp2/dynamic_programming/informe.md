@@ -17,10 +17,11 @@ y se ramifica en sub problemas con una cantidad de hectarias menor al de la raiz
 
 A continuación se presenta la relación de recurrencia utilizada en la solución
 de programación dinámica.
-
+```
 OPT(t) = 0 												t = 0
 OPT(t) = max (i / item i e Items AND item i have t and item i is allowed)
 				{ profit[i] + OPT(t - i)}				t > 0
+```
 
 En la relación de recurrencia se puede observar	que cuando el trimestre es cero
 el óptimo de ganancia es cero.
@@ -32,6 +33,7 @@ la restricción de cultivos consecutivos o de repetir el mismo cultivo.
 
 ## 4. Pseudocódigo de la solución iterativa
 
+```java
 Desde i = 1 hasta n
 OPT[i]= 0
 
@@ -45,7 +47,7 @@ Desde t=1 a T
 	OPT[t] = max_profit
 
 Retornar OPT[T]
-
+```
 ## 5. Complejidad temporal y espacial de la solución
 
 Considerando que se tienen n items a sembrar y que existen t trimestres con t < n.
