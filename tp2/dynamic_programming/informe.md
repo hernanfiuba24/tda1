@@ -3,8 +3,28 @@
 
 ## 1. Solución con programación dinámica
 
-Se plantea realizar un árbol de decisión cuya raíz es el total de hectarias disponible
-y se ramifica en sub problemas con una cantidad de hectarias menor al de la raiz.
+Primero leyendo el archivo de entrada se determinará la cantidad máxima de trimestres
+que se deben procesar.
+
+Luego arma se arma un árbol de decisión cuya raíz es la máxima cantidad de
+trimestres para plantar.
+
+Se evaluan todos los casos posibles, para calcular el óptimo usando todos los trimestres
+de tiempo, esto es el optimo T se calcula como el óptimo T-1 y el óptimo de 1 trimestres,
+el óptimo T-2 y el optimo de 2 trimestres, etc a su vez el optimo T-1 se subdive entre el optimo entre el óptimo T-2 y el optimo de 2, y asi se crea el arbol de decisión.
+
+para simplificar esto se realiza programación dinámica almacenando soluciones optimas
+de subproblemas que se repiten en el arbol de decisión.
+
+En este caso comienza obteniendo el óptimo usando sólo el primer trimestre dando
+esta una solución optima, luego bajo las restricciones aplicadas se optiene una solucion optima
+usando la solución optima del paso anterior. esta nueva solucion puede no contener a la solucion del paso anterior.
+
+Dado un periodo t, se obtienen todos los item que pueden ser plantados en ese trimestre,
+luego se obtiene el item plantado en el trimestre anterior, se verifican las restricciones
+y se obtiene el item optimo para ser plantado en el perido t
+Entonces se obtiene el elemento previamente 
+
 ...
 
 ## 2. Subproblema del planteo
