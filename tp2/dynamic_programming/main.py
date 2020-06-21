@@ -1,55 +1,128 @@
 import sys
 
 class Item:
-    def __init__(self, name, hectares, t_start, t_end, profit):
+    def __init__(self, name, trimester, profit):
         self.name = name
-        self.hectares = hectares
-        self.t_start = t_start
-        self.t_end = t_end
+        self.trimester = trimester
         self.profit = profit
+        self.next_not_allowed = []
+    def __str__(self):
+        return str(self.__class__) + ": " + str(self.__dict__)
 
 def parse_data(filepath):
     items = []
+    item_map = {}
     with open(filepath) as file:
         for line in file.readlines():
             line = line.replace('\n', '')
-            fields = line.split(' ')
-            if len(fields) == 5:
+            fields = line.split(',')
+            if len(fields) == 3:
                 name = fields[0]
-                hectares = int(fields[1])
-                t_start = int(fields[2])
-                t_end = int(fields[3])
-                profit = int(fields[4])
-                items.append(Item(name, hectares, t_start, t_end, profit))
+                trimester = int(fields[1])
+                profit = int(fields[2])
+                item = Item(name, trimester, profit)
+                item.next_not_allowed.append(item.name)
+                items.append(item)
+                if name in item_map:
+                    item_map[name].append(item)
+                else:
+                    item_map[name] = [ item ]
+            elif len(fields) == 2:
+                _current = fields[0]
+                _next = fields[1]
+                if _current in item_map and _next in item_map:
+                    for item in item_map[_current]:
+                        item.next_not_allowed.append(_next)
     file.close()
-    
+
     return items
 
-def main(H, filepath):
+def pareoItemsPrevius(items):
+    i = len(items)
+    j = i-1
+    previous = [[]] * (i+1)
+    data_previus = []
+
+    while i > 1:
+
+        item = items[i-1]
+        t = item.trimester
+        prev_item = items[j-1]
+
+        if j-1 < 0 :
+            previous[i] = data_previus
+            data_previus = []
+            i = i-1
+            j = i-1
+        elif t-1 == prev_item.trimester and not item.name in prev_item.next_not_allowed:
+            data_previus.append(j)
+            j = j-1
+        elif t-1 > prev_item.trimester:
+            data_previus.append(j)
+            j = j-1
+        else:
+            j = j-1
+
+    return previous
+
+def main(filepath):
     items = parse_data(filepath)
-    OPT = [0] * (H+1)
+    items.sort(key = lambda x: x.trimester)
+    T = items[-1].trimester
+    I = len(items)
 
-    for h in range(1, H+1):
-        max_profit = 0
+    OPT = [0] * (I+1)
+    OPT[1] = items[0].profit
 
-        for item in items:
-            h_rest = h - item.hectares
-            # TODO validar superposición de tiempos de siembras y cosechas entre los cultivos
-            if h_rest >= 0 and max_profit < item.profit + OPT[h_rest]:
-                # TODO guardar el cultivo
-                max_profit = item.profit + OPT[h_rest]
+    previus = pareoItemsPrevius(items)
+    print(previus)
+    pos_solution = 1
 
-        OPT[h] = max_profit
+    for i in range(2,I+1):
+        item = items[i-1]
 
-    # TODO imprimir los cultivos
-    print("Ganancia máxima: ", OPT[H])
+        previous_optimun = 0
+        profit_previous_optimun = OPT[0]
+        previous_allowed = previus[i]
+
+        for prev in previous_allowed:
+            if(OPT[prev] > profit_previous_optimun):
+                profit_previous_optimun = OPT[prev]
+                previous_optimun = prev
+
+        optimumItem = item.profit + profit_previous_optimun
+        OPT[i] = optimumItem
+
+        if OPT[i] > OPT[pos_solution]:
+            pos_solution = i
+
+        print(OPT)
+
+
+    print("Ganancia obtenida: ", OPT[pos_solution])
+    print("POS OPT: ", pos_solution)
+
+    print('Elementos usados:')
+    previous_allowed = previus[pos_solution]
+    while(len(previous_allowed) != 0):
+        print(items[pos_solution-1])
+
+        previous_optimun = 0
+        profit_previous_optimun = OPT[0]
+        previous_allowed = previus[pos_solution]
+
+        for prev in previous_allowed:
+            if(OPT[prev] > profit_previous_optimun):
+                profit_previous_optimun = OPT[prev]
+                pos_solution = prev
+
+
 
 if __name__ == "__main__":
     args_count = len(sys.argv)
-    if args_count != 3:
+    if args_count != 2:
         print("Cantidad de argumentos inválidos.")
         quit()
 
-    H = int(sys.argv[1]) # 20
-    filepath = sys.argv[2] # "data.txt"
-    main(H, filepath)
+    filepath = sys.argv[1]
+    main(filepath)
