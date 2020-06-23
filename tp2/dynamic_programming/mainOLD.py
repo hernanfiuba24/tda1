@@ -106,7 +106,6 @@ def main(filepath):
         pos_optimun = pos_max_profit(OPT,previus[pos_optimun])
 
 
-
 if __name__ == "__main__":
     args_count = len(sys.argv)
     if args_count != 2:

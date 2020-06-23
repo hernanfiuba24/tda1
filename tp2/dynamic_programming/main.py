@@ -54,10 +54,7 @@ def pareoItemsPrevius(items):
             data_previus = []
             i = i-1
             j = i-1
-        elif t-1 == prev_item.trimester and not item.name in prev_item.next_not_allowed:
-            data_previus.append(j)
-            j = j-1
-        elif t-1 > prev_item.trimester:
+        elif t-1 == prev_item.trimester and not item.name in prev_item.next_not_allowed or t-1 > prev_item.trimester:
             data_previus.append(j)
             j = j-1
         else:
@@ -67,8 +64,8 @@ def pareoItemsPrevius(items):
 
 def main(filepath):
     items = parse_data(filepath)
-    items.sort(key = lambda x: x.trimester)
-    T = items[-1].trimester
+    # items.sort(key = lambda x: x.trimester)
+    # T = items[-1].trimester
     I = len(items)
 
     OPT = [0] * (I+1)
