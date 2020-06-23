@@ -64,7 +64,7 @@ def pareoItemsPrevius(items):
 
 def main(filepath):
     items = parse_data(filepath)
-    # items.sort(key = lambda x: x.trimester)
+    items.sort(key = lambda x: x.trimester)
     # T = items[-1].trimester
     I = len(items)
 
