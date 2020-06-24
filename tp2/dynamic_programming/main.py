@@ -72,7 +72,6 @@ def main(filepath):
     OPT[1] = items[0].profit
 
     previus = pareoItemsPrevius(items)
-    print(previus)
     pos_solution = 1
 
     for i in range(2,I+1):
@@ -93,17 +92,13 @@ def main(filepath):
         if OPT[i] > OPT[pos_solution]:
             pos_solution = i
 
-        print(OPT)
-
 
     print("Ganancia obtenida: ", OPT[pos_solution])
-    print("POS OPT: ", pos_solution)
-
     print('Elementos usados:')
     previous_allowed = previus[pos_solution]
     while(len(previous_allowed) != 0):
-        print(items[pos_solution-1])
-
+        item = items[pos_solution-1]
+        print('Item:',item.name, ', Trimestre:', item.trimester, ', Ganancia:', item.profit)
         previous_optimun = 0
         profit_previous_optimun = OPT[0]
         previous_allowed = previus[pos_solution]
